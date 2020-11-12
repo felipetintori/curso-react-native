@@ -1,55 +1,86 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput, Button} from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 
 class App extends Component {
-  constructor(props){
+
+  constructor(props) {
     super(props);
     this.state = {
-      nome: '',
-      input: ''
+      textoFrase: '',
+      img: require('./android/app/src/biscoito-fechado.jpg')
+
     }
-    
-    this.entrar = this.entrar.bind(this);
+
+    this.quebraBiscoito = this.quebraBiscoito.bind(this)
+
+    this.frases = [
+      'Siga os bons e aprenda com eles',
+      'O bom-senso vale mais do que muito conhecimento',
+      'O riso é a menor ditância entre duas pessoas',
+      'Deixe de lado as preocupações e seja feliz'
+    ];
   }
 
-  entrar(){
-    const texto = this.state.input
-    if(texto === ""){
-      alert("preencha o Campo")
-      return
-    }else{
-      this.setState({nome: `Bem vindo ${texto}`})
-    }
-    
+  quebraBiscoito() {
+    let numeroAleatorio = Math.floor(Math.random() * this.frases.length)
+    this.setState({
+      textoFrase: this.frases[numeroAleatorio]
+    })
+
   }
 
-  
   render() {
     return (
       <View style={styles.container}>
-          <TextInput style={styles.input} placeholder="Digite seu nome?" underlineColorAndroid="transparent" onChangeText={(texto) => this.setState({input: texto})}/>
-          <Button title="Entrar" onPress={this.entrar}/>
-          <Text style={styles.texto}>{this.state.nome}</Text>
+        <Image style={styles.img} source={this.state.img} />
+        <Text style={styles.textoFrase}>"{this.state.textoFrase}"</Text>
+
+        <TouchableOpacity style={styles.botao} onPress={this.quebraBiscoito}>
+          <View style={styles.btnArea}>
+            <Text style={styles.btnTexto}>Quebrar Biscoito</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  input:{
-    height:45,
-    borderWidth: 1,
-    borderColor: '#222',
-    margin: 10,
+  img: {
+    width: 250,
+    height: 250,
+  },
+  textoFrase: {
     fontSize: 20,
-    padding: 10,
-  },
-  texto:{
+    color: '#dd7b22',
+    margin: 30,
+    fontStyle: 'italic',
     textAlign: 'center'
+  },
+  botao: {
+    width: 230,
+    height: 50,
+    borderWidth: 2,
+    borderColor: '#dd7b22',
+    borderRadius: 25
+  },
+  btnArea: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  btnTexto: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#dd7b22'
   }
+
 });
 
 
