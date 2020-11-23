@@ -1,35 +1,27 @@
 import React, { Component } from 'react'
-import {Picker} from '@react-native-picker/picker';
+
 import { View, StyleSheet, Text } from 'react-native'
+import Slider from "@react-native-community/slider"
 
 class App extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      pizza: 0,
-      pizzas: [
-        {key: 1, nome: "Strognoff", valor: 35.90 },
-        {key: 2, nome: "Calabresa", valor: 55.90 },
-        {key: 3, nome: "Brigadeiro", valor: 35.90 },
-      ]
+      valor: 0
     }
   }
   
 
   render() {
-    let pizzasItem = this.state.pizzas.map((v, k)=>{
-      return <Picker.item key={k} value={k} label={v.nome} />
-    })
+   
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>Menu Pizza</Text>
-        <Picker selectedValue={this.state.pizza} onValueChange={ (itemValue, itemIndex) => this.setState({pizza: itemValue})}>
-          {pizzasItem}
-        </Picker>
-        <Text style={styles.pizzas}>Voce escolheu: {this.state.pizzas[this.state.pizza].nome}</Text>
-        <Text style={styles.pizzas}>R$: {this.state.pizzas[this.state.pizza].valor}</Text>
-
+        
+        <Slider minimumValue={0} minimumTrackTintColor="#00FF00" maximumTrackTintColor="#FF0000" value={this.state.valor} maximumValue={100} onValueChange={valorSelecionado => this.setState({valor: valorSelecionado})} />
+        <Text style={{textAlign: 'center', fontSize: 30}}>
+          Você tem {this.state.valor.toFixed(1)} KG
+        </Text>
       </View>
     )
   }
@@ -40,16 +32,7 @@ const styles = StyleSheet.create({
     flex:1,
     marginTop: 20
   },
-  logo:{
-    textAlign: 'center',
-    fontSize: 28,
-    fontWeight: 'bold'
-  },
-  pizzas:{
-    marginTop:15,
-    fontSize: 25,
-    textAlign: 'center'
-  }
+  
 })
 
 
