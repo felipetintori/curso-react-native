@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 
-import { View, StyleSheet, Text } from 'react-native'
-import Slider from "@react-native-community/slider"
+import { View, StyleSheet, Text, Switch } from 'react-native'
+
 
 class App extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      valor: 0
+      status: false
+      
     }
   }
   
@@ -18,9 +19,14 @@ class App extends Component {
     return (
       <View style={styles.container}>
         
-        <Slider minimumValue={0} minimumTrackTintColor="#00FF00" maximumTrackTintColor="#FF0000" value={this.state.valor} maximumValue={100} onValueChange={valorSelecionado => this.setState({valor: valorSelecionado})} />
+        <Switch
+        value={this.state.status}
+        onValueChange={(valorSwitch) => this.setState({status: valorSwitch})}
+        thumbColor="#FF0000"
+        />
+
         <Text style={{textAlign: 'center', fontSize: 30}}>
-          Você tem {this.state.valor.toFixed(1)} KG
+          {(this.state.status) ? "Ativo" : "Inativo"}
         </Text>
       </View>
     )
