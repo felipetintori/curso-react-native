@@ -8,6 +8,50 @@ class Lista extends Component{
         this.state = {
             feed:this.props.data
         }
+        this.mostraLikes = this.mostraLikes.bind(this)
+        this.like = this.like.bind(this)
+        this.carregaIcone = this.carregaIcone.bind(this)
+    }
+
+    carregaIcone(Likeada){
+        return Likeada ? require('../img/likeada.png') : require('../img/like.png')
+    }
+
+    like(){
+        let feed = this.state.feed;
+
+        if(feed.likeada === true){
+            this.setState({
+                feed:{
+                    ...feed,
+                    likeada: false,
+                    likers: feed.likers - 1
+                }
+            })
+        }
+
+        else{
+            this.setState({
+                feed:{
+                    ...feed,
+                    likeada: true,
+                    likers: feed.likers + 1
+                }
+            })
+        }
+    }
+
+    mostraLikes(likers){
+        let feed = this.state.feed;
+
+        if(feed.likers <= 0){
+            return
+        }
+        return(
+            <Text style={styles.likes}>
+                {feed.likers} {feed.likes > 1 ? 'curtidas' : 'curtida'}
+            </Text>
+        )
     }
     render(){
         return(
@@ -26,9 +70,9 @@ class Lista extends Component{
                 source={{uri: this.state.feed.imgPublicacao}}
                 />
                 <View style={styles.areaBtn}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.like}>
                         <Image
-                        source={require('../img/like.png')}
+                        source={this.carregaIcone(this.state.feed.likeada)}
                         style={styles.iconeLike}
                         />
                     </TouchableOpacity>
@@ -40,6 +84,9 @@ class Lista extends Component{
                         />
                     </TouchableOpacity>
                 </View>
+
+                {this.mostraLikes(this.state.feed.likers)}
+
                 <View style={styles.viewRodape}>
                     <Text style={styles.nomeRodape}>
                         {this.state.feed.nome}
@@ -105,6 +152,10 @@ nomeRodape:{
     fontWeight: 'bold',
     color: '#000',
     paddingLeft: 5
+},
+likes:{
+  fontWeight: 'bold' ,
+  marginLeft: 5 
 }
 })
 
