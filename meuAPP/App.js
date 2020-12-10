@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 
-import { View, StyleSheet, Text, Button, Modal } from 'react-native'
-import Entrar from './src/Entrar'
+import { View, StyleSheet, FlatList } from 'react-native'
+
+import api from './src/services/api'
+
+import Filmes from './src/Filmes'
+
 
 
 
@@ -9,34 +13,27 @@ import Entrar from './src/Entrar'
 class App extends Component {
 
   constructor(props){
-    super(props);
+    super(props)
     this.state = {
-      modalVisible: false
-     
+      filmes: []
     }
-    this.entrar = this.entrar.bind(this)
-    this.sair = this.sair.bind(this)
-  }  
+  }
 
-  entrar(){
+  async componentDidMount(){
+    const response = await api.get('r-api/?api=filmes')
     this.setState({
-      modalVisible: true
+      filmes: response.data
     })
   }
 
-  sair(visible){
-    this.setState({
-      modalVisible: visible
-    })
-  }
-  
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Entrar" onPress={this.entrar}/>
-        <Modal animationType="slide" visible={this.state.modalVisible}>
-         <Entrar fechar={() => this.sair(false)}/> 
-        </Modal> 
+        <FlatList
+          data={this.state.filmes}
+          keyExtractor={item => item.id.toString()}
+          renderItem={ ({item}) => <Filmes data={item}/>}
+        />
       </View>
     )
   }
@@ -45,9 +42,6 @@ class App extends Component {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#DDD',
   },
   
   
