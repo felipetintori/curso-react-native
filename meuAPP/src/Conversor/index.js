@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 
 import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 
+import api from './../services/apiConversor'
+
 // convert?q=USD_BRL&compact=ultra&apiKey=a865718d6b6cf3059f4e
 
 class Conversor extends Component{
@@ -16,8 +18,9 @@ class Conversor extends Component{
         this.converter = this.converter.bind(this)
     }
 
-    converter(){
-        
+    async converter(){
+       const response = await api.get("convert?q=USD_BRL&compact=ultra&apiKey=a865718d6b6cf3059f4e")
+       console.log(response.data)
     }
     render(){
         const { moedaA, moedaB}= this.props;
